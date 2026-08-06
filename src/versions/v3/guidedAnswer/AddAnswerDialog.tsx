@@ -9,7 +9,6 @@ import { type AiSourceDto } from 'stonly-editor/api/aiSource/aiSource.dto';
 import { uuidv4 } from '@stonlyCommons/helpers/randomValues';
 import { ColumnFlex } from '@ui/components/Flex';
 import { Notification } from '@ui/components/notifications';
-import useLocalStorage from '@editorCommon/hooks/useLocalStorageValue';
 import { GUIDED_ANSWER_LAUNCH_MODE } from 'stonly-editor/model/aiSource/aiSource.enum';
 import {
   type AnswerProperties,
@@ -80,7 +79,6 @@ export const AddAnswerDialog = ({
   // triggers inline validation instead. These flags gate that inline display per step.
   const [isAnswerValidationTriggered, setIsAnswerValidationTriggered] = useState(false);
   const [isQueriesValidationTriggered, setIsQueriesValidationTriggered] = useState(false);
-  const [wasQueryTipDisplayed, setWasQueryTipDisplayed] = useLocalStorage('guidedAiAnswerQueryTipShown', false);
   const isCustomMessageType = answerProperties.guideLaunchMode === GUIDED_ANSWER_LAUNCH_MODE.CUSTOM_MESSAGE;
   const isBpaMode = answerProperties.guideLaunchMode === GUIDED_ANSWER_LAUNCH_MODE.BPA;
 
@@ -306,15 +304,6 @@ export const AddAnswerDialog = ({
         >
           {isNextStep ? (
             <ColumnFlex gap={3}>
-              {!wasQueryTipDisplayed && (
-                <Notification
-                  severity="info"
-                  data-cy="guidedAiAnswerQueryTip"
-                  onCloseClick={() => setWasQueryTipDisplayed(true)}
-                >
-                  {t('AiSources.GuidedAnswers.V3.QueryTip')}
-                </Notification>
-              )}
               {isQueriesValidationTriggered && !hasQueries && (
                 <Notification severity="error" data-cy="queriesRequiredError">
                   {t('AiSources.GuidedAnswers.AddQueriesRequiredError')}

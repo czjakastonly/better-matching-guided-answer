@@ -8,7 +8,6 @@ import { AiSourceApi } from 'stonly-editor/api/aiSource/aiSource.api';
 import Tabs from '@editorCommon/CustomElements/Tabs';
 import Loader from '@editorCommon/CustomElements/Loader';
 import { ColumnFlex } from '@ui/components/Flex';
-import useLocalStorage from '@editorCommon/hooks/useLocalStorageValue';
 import { ActionsDialog } from '@ui/components/dialogs/ActionsDialog';
 import { ModalWindow } from '@ui/components/ModalWindow';
 import { isUuidV4, uuidv4 } from '@stonlyCommons/helpers/randomValues';
@@ -108,7 +107,6 @@ export const EditAnswerDialog = ({ onCancel, onSubmit, onPostSubmit, teamId, sou
   // Maps id -> the original generated text, for any query that was ever AI-generated (kept even
   // after the row is edited away from AI, so the "revert" control can restore it).
   const [aiOriginalTextById, setAiOriginalTextById] = useState<{ [id: string]: string }>({});
-  const [wasQueryTipDisplayed, setWasQueryTipDisplayed] = useLocalStorage('guidedAiAnswerQueryTipShown', false);
   // Modal Button Guidelines: Save is never disabled — clicking while incomplete triggers inline
   // validation across the relevant tab(s) instead.
   const [isValidationTriggered, setIsValidationTriggered] = useState(false);
@@ -461,15 +459,6 @@ export const EditAnswerDialog = ({ onCancel, onSubmit, onPostSubmit, teamId, sou
           </ColumnFlex>
         ) : (
           <ColumnFlex gap={3} padding={4} paddingBottom={6}>
-            {!wasQueryTipDisplayed && (
-              <Notification
-                severity="info"
-                data-cy="guidedAiAnswerQueryTip"
-                onCloseClick={() => setWasQueryTipDisplayed(true)}
-              >
-                {t('AiSources.GuidedAnswers.V3.QueryTip')}
-              </Notification>
-            )}
             {isValidationTriggered && counter === 0 && (
               <Notification severity="error" data-cy="queriesRequiredError">
                 {t('AiSources.GuidedAnswers.AddQueriesRequiredError')}
