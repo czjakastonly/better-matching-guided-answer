@@ -1,0 +1,1 @@
+export { ChipTruncatable } from './ChipTruncatable';

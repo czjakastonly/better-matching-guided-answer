@@ -1,0 +1,1 @@
+export { BadgeAvatar } from './BadgeAvatar';

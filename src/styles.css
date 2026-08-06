@@ -1,0 +1,84 @@
+html {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+*[dir='rtl'] {
+  direction: rtl;
+  unicode-bidi: embed;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  overflow-x: auto;
+  color: #1C1A24;
+  background: #fff;
+  /* Load system fonts */
+  font-family: -apple-system, BlinkMacSystemFont, San Francisco, Roboto, Segoe UI, Helvetica Neue, sans-serif;
+
+  /* Make type rendering look crisper */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Disable auto-enlargement of small text in Safari */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+
+  /* Enable kerning and optional ligatures */
+  text-rendering: optimizeLegibility;
+}
+
+#root {
+  height: 100%;
+}
+
+.aOnDarkBackground {
+  color: #c9cadd;
+}
+
+.aOnDarkBackground:hover {
+  color: #fff;
+}
+
+p {
+  margin-top: 12px;
+}
+
+h1 {
+  font-weight: normal;
+  font-size: 12px;
+  margin: 0;
+}
+
+a {
+  color: inherit; /* blue colors for links too */
+  text-decoration: inherit; /* no underline */
+}
+
+ins,
+del {
+  position: relative;
+  text-decoration: none;
+}
+
+ins {
+  background-color: rgba(24, 201, 142, 0.2);
+  outline: 2px solid rgba(24, 201, 142, 0.2);
+}
+
+del {
+  background: rgba(255, 0, 40, 0.2);
+  outline: 2px solid rgba(255, 0, 40, 0.2);
+}
+
+.grecaptcha-badge {
+  z-index: 110;
+}

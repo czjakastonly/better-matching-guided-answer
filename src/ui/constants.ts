@@ -1,0 +1,36 @@
+/**
+ * Not to be used for styling by developers. Just for querying.
+ * WARNING: these classes are used "hardcoded" (in tests).
+ */
+export const STATIC_CLASS_NAME = {
+  buttonMinimal: 'ston-button-minimal',
+  dialog: 'ston-dialog-main',
+  dialogContent: 'ston-dialog-content',
+  dropdownTrigger: 'ston-dropdown-trigger',
+  field: 'ston-field-main',
+  fieldButtonAdditionalAction: 'ston-field-additionalAction',
+  fieldCheck: 'ston-field-check',
+  fieldGroup: 'ston-fieldGroup-main',
+  fieldToggle: 'ston-field-toggle',
+  focusLocked: 'ston-focus-locked',
+  inputLabel: 'ston-input-label',
+  inputMessage: 'ston-input-message',
+  inputTooltip: 'ston-input-tooltip',
+  inputWrap: 'ston-input-wrap',
+  modal: 'ston-modal-main',
+  modalContainer: 'ston-modal-container',
+  modalBackdrop: 'ston-modal-backdrop',
+  modalClose: 'ston-modal-close',
+  modalFullscreen: 'ston-modal-fullscreen',
+  notification: 'ston-notification',
+  portal: 'ston-portal',
+  statusError: 'ston-status-error',
+  statusIcon: 'ston-statusIcon',
+  statusInfo: 'ston-status-info',
+  statusSuccess: 'ston-status-success',
+  statusWarning: 'ston-status-warning',
+  tickIcon: 'ston-tick',
+  tooltip: 'ston-tooltip-main',
+  tooltipTrigger: 'ston-tooltipTrigger',
+  chip: 'ston-chip',
+};

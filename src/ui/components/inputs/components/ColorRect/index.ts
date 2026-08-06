@@ -1,0 +1,1 @@
+export { ColorRect } from './ColorRect';
