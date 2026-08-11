@@ -278,6 +278,7 @@
       },
       "V3": {
         "StepCaption": "Step {{step}} of 2",
+        "QueriesSectionTitle": "Queries ({{count}})",
         "AssignQueriesButton": "Assign queries",
         "AddAnswerButton": "Add answer",
         "SearchQueriesPlaceholder": "Search queries",

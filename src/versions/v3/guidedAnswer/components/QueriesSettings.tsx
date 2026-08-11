@@ -32,8 +32,9 @@ import { LanguageSelector } from './LanguageSelector';
  *   their own row — a StickyToolbar (node 5172:20943) pinned to the top of the modal's scrollable
  *   content area, so both stay reachable while a long query list scrolls beneath them. Its bottom
  *   divider only appears once scrolled (same convention as ActionsDialog's own header divider —
- *   see DialogHeader — reused here via the same ContentWrapRefContext). "Assign queries" is a
- *   separate content-level section label underneath, not sharing a row with either control.
+ *   see DialogHeader — reused here via the same ContentWrapRefContext). "Queries (N)" — N being
+ *   the current language's own query count — is a separate content-level section label
+ *   underneath, not sharing a row with either control.
  * - Each row's icon (AI-16 for generated, Edit-16 for manual) sits INSIDE the input field
  *   itself — inset top-left, with the field's own left padding pushed over to make room — instead
  *   of as a separate element before it. A row's ai/manual status is derived, not stored: it's AI
@@ -154,8 +155,9 @@ const ManualQueryIcon = styled(EditSVG)`
   }
 `;
 
-// "Assign queries" — a content-level section label now (per Figma), not the modal's own title;
-// see AddAnswerDialog's "Step X of 2" header for what replaced it there.
+// "Queries (N)" — a content-level section label now (per Figma), not the modal's own title; see
+// AddAnswerDialog's "Step X of 2" header for what replaced it there. The count is the current
+// language's own query count, so it re-reads the moment the language (or the list) changes.
 const SectionLabel = styled.span`
   ${({ theme }) => theme.typography.h3Strong};
   color: ${({ theme }) => theme.color.textDark};
@@ -468,7 +470,9 @@ export const QueriesSettings = ({
       </StickyToolbar>
       <ColumnFlex gap={3}>
         <ColumnFlex gap={2}>
-          <SectionLabel>{t('AiSources.GuidedAnswers.AssignQueriesTitle')}</SectionLabel>
+          <SectionLabel>
+            {t('AiSources.GuidedAnswers.V3.QueriesSectionTitle', { count: Object.keys(queries).length })}
+          </SectionLabel>
           {isError && (
             <Notification severity="error" data-cy="guidedAiAnswerQueriesError">
               {t('AiSources.GuidedAnswers.QueriesErrorMessage')}
