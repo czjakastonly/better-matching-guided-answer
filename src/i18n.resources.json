@@ -286,7 +286,7 @@
         "AddToAllLanguages": "Add to all languages",
         "GenerateTriggerButton": "Generate queries",
         "PopoverTitle": "Generate queries from intent",
-        "GenerateActionButton": "Generate queries",
+        "GenerateActionButton": "Generate",
         "GeneratingActionButton": "Generating…",
         "QueriesGeneratedToast": "Queries generated and added to list",
         "QueryTip": "Adding 5–8 distinct, varied phrasings helps the AI match user intent accurately.",
