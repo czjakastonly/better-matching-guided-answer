@@ -114,11 +114,19 @@ const AiIcon = styled(AISVG)`
   height: 16px;
   flex: none;
 
-  /* !important: TooltipIcon's TriggerIconWrapper hardcodes its own rest/hover/focus fill for the
-     generic "?" help-icon case (a more specific "wrapper svg path" selector) — this icon isn't
-     that generic case, it's a fixed AI-pink indicator that shouldn't shift color on hover. */
+  /* Per the icon-atom convention (Figma "Atoms" file, node 3892:35613): neutral gray, same as
+     ManualQueryIcon below — iconDefault at rest, iconHover on hover/focus — not a fixed pink
+     indicator. !important since TooltipIcon's TriggerIconWrapper hardcodes its own rest/hover/
+     focus fill for the generic "?" help-icon case (a more specific "wrapper svg path" selector). */
   path {
-    fill: ${({ theme }) => theme.color.iconPink} !important;
+    fill: ${({ theme }) => theme.color.iconDefault} !important;
+  }
+
+  ${TooltipStyles.TriggerIconWrapper}:hover &,
+  ${TooltipStyles.TriggerIconWrapper}:focus & {
+    path {
+      fill: ${({ theme }) => theme.color.iconHover} !important;
+    }
   }
 
   /* TooltipIcon's TriggerIconWrapper also bakes in a 4px left margin (meant for a "?" help icon

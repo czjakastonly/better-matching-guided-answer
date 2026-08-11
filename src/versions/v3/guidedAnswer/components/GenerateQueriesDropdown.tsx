@@ -1,30 +1,26 @@
 import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { ColumnFlex, RowFlex } from '@ui/components/Flex';
 import { ButtonPrimary } from '@ui/components/buttons/ButtonPrimary';
-import { ButtonMinimal } from '@ui/components/buttons/ButtonMinimal';
 import { FieldCheck } from '@ui/components/inputs/FieldCheck';
 import { Popover } from '@ui/components/Popover';
 import { useFloatingDropdown } from '@ui/components/Dropdown';
 import AISVG from '@ui/atoms/icons/AI-16.svg';
-import {
-  IntentSettings,
-  INTENT_DESCRIPTION_MIN_LENGTH,
-  INTENT_DESCRIPTION_MIN_LENGTH_CUSTOM_MESSAGE,
-} from './IntentSettings';
+import { IntentSettings } from './IntentSettings';
 
 /**
  * V3 fork of V2's GenerateQueriesPanel (frontend-only, NOT for production), per Figma node
  * 5170:18303 ("Form dropdown"): the always-open "Generate queries from intent" card is replaced
  * with an inline "Generate queries" dropdown trigger + popover (no nested modal) that sits next
- * to "+ Add query" (see QueriesSettings). The trigger is a plain pink ghost button (no
- * border/background — matches the Figma "Minimal button" convention, pink
- * because this is the AI-tool action), and the popover's own action button is the standard DS
- * `ButtonPrimary` at small size, matching the Figma mock exactly. Two deliberate departures from
- * that Figma mock, per explicit request: the tip/helper text under the textarea keeps this
- * project's existing blue tip-box treatment (not Figma's plain gray text) and the character
- * counter is kept (Figma's mock doesn't show one) — see IntentSettings. There's no
+ * to "+ Add query" (see QueriesSettings). Both the trigger and the popover's own action button are
+ * the real design-system `ButtonPrimary` at small size (per Figma node 5206:1466's mockup and the
+ * component library's own node 4436:6661), inheriting every state — hover/active/disabled/loading
+ * — from the real component untouched. One deliberate departure from that Figma mock, per explicit
+ * request: the character counter is kept inset in the textarea (Figma's mock doesn't show one) —
+ * see IntentSettings, whose own helper line under the textarea otherwise matches the mock exactly
+ * (a single plain-gray tip, not a blue tip box that swaps to a different message past 80 chars).
+ * There's no
  * "Generating in {LANG}" tag — the language selector above the query list (see
  * LanguageSelector/QueriesSettings) is the single source of truth for "which language". An
  * "Add to all languages" checkbox appears only when the answer has more than one language; when
@@ -153,46 +149,6 @@ export const buildQueryTextListByLanguage = (
   );
 };
 
-// Checked against the actual component library (file X9o3ueR8dt2fsp96eUSn4R, node 4464:2810,
-// "Minimal button" / State=Default, Size=Regular, Icon=Left) — this trigger is the same
-// `ButtonMinimal` used for the language selector, just the Icon=Left variant, not a bespoke
-// button. Its base colors (rest/hover/active/disabled) are generic gray, so this overrides just
-// the color/icon-fill to pink — the AI-tool accent for this specific instance — while inheriting
-// every other state (disabled opacity, focus outline) from the real component untouched.
-const GenerateTrigger = styled(ButtonMinimal)`
-  color: ${({ theme }) => theme.color.borderPrimary} !important;
-
-  svg path {
-    fill: ${({ theme }) => theme.color.borderPrimary} !important;
-  }
-
-  /* Per the icon-atom convention (Figma "Atoms" file, node 7646:155): no background tint on
-     hover/active — just the icon/text pigment itself going darker. Cancels ButtonMinimal's own
-     default gray hover/active background instead of swapping it for a pink one. isPressed is a
-     styled prop (reflects the popover being open), not a CSS pseudo-class, so it needs its own
-     conditional block alongside the pseudo-classes. */
-  &:hover,
-  &:active {
-    background-color: transparent !important;
-    color: ${({ theme }) => theme.color.backgroundPrimaryHover} !important;
-
-    svg path {
-      fill: ${({ theme }) => theme.color.backgroundPrimaryHover} !important;
-    }
-  }
-
-  ${({ isPressed, theme }) =>
-    isPressed &&
-    css`
-      background-color: transparent !important;
-      color: ${theme.color.backgroundPrimaryHover} !important;
-
-      svg path {
-        fill: ${theme.color.backgroundPrimaryHover} !important;
-      }
-    `}
-`;
-
 const PopoverContent = styled(ColumnFlex)`
   width: 450px;
 `;
@@ -270,9 +226,6 @@ export const GenerateQueriesDropdown = ({
     closingKeyList: ['Escape'],
   });
 
-  const intentMinLength = isCustomMessageType
-    ? INTENT_DESCRIPTION_MIN_LENGTH_CUSTOM_MESSAGE
-    : INTENT_DESCRIPTION_MIN_LENGTH;
   const isIntentValid = !!intentDescription.trim();
 
   const onGenerate = () => {
@@ -300,14 +253,15 @@ export const GenerateQueriesDropdown = ({
 
   return (
     <>
-      <GenerateTrigger
+      <ButtonPrimary
         {...triggerProps}
+        size="small"
         iconLeft={<AISVG />}
         isPressed={isOpen}
         data-cy="generateQueriesTrigger"
       >
         {t('AiSources.GuidedAnswers.V3.GenerateTriggerButton')}
-      </GenerateTrigger>
+      </ButtonPrimary>
       {isOpen && (
         <Popover {...floatingProps} isFocusLocked data-cy="generateQueriesPopover">
           <PopoverContent>
@@ -319,8 +273,6 @@ export const GenerateQueriesDropdown = ({
               <IntentSettings
                 intentDescription={intentDescription}
                 onIntentDescriptionChange={onIntentDescriptionChange}
-                minLength={intentMinLength}
-                helperMessage={t('AiSources.GuidedAnswers.V2.IntentPanelHelper')}
                 showValidation={isValidationTriggered}
               />
             </FormSection>
