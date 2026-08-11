@@ -3,7 +3,7 @@ import styled, { css, keyframes } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import RemoveSVG from '@ui/atoms/icons/Remove-16.svg';
-import AISVG from '@ui/atoms/icons/AI-24.svg';
+import AISVG from '@ui/atoms/icons/AI-16.svg';
 import EditSVG from '@ui/atoms/icons/Edit-16.svg';
 import SearchSVG from '@ui/atoms/icons/Search-16.svg';
 import CloseSVG from '@ui/atoms/icons/Close-12.svg';
@@ -108,7 +108,8 @@ const QueryFieldIcon = styled.span`
   }
 `;
 
-// Same convention as V2: a small icon (hover: "AI-generated query").
+// The real "Basic / AI-16" atom (Figma Atoms file, node 5594:77) — natively sized for a 16px slot,
+// not the 24px asset scaled down (which distorted the star cluster's proportions at this size).
 const AiIcon = styled(AISVG)`
   width: 16px;
   height: 16px;

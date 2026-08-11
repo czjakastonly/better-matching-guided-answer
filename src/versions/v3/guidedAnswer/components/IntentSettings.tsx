@@ -82,7 +82,7 @@ export const IntentSettings = React.forwardRef<HTMLTextAreaElement, IntentSettin
           maxLength={INTENT_DESCRIPTION_MAX_LENGTH}
           minRows={3}
           status={isRequiredError ? 'error' : undefined}
-          message={isRequiredError ? t('Global.RequiredFieldError') : undefined}
+          message={isRequiredError ? t('AiSources.GuidedAnswers.V3.IntentDescriptionRequiredError') : undefined}
         />
         {!isRequiredError && (
           <InsetCounter data-cy="intentDescriptionCounter">

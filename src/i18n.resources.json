@@ -279,6 +279,7 @@
       "V3": {
         "StepCaption": "Step {{step}} of 2",
         "QueriesSectionTitle": "Queries ({{count}})",
+        "IntentDescriptionRequiredError": "The intent field cannot be empty.",
         "AssignQueriesButton": "Assign queries",
         "AddAnswerButton": "Add answer",
         "SearchQueriesPlaceholder": "Search queries",
