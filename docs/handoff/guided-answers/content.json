@@ -1,0 +1,167 @@
+{
+  "personas": [
+    { "name": "Team Admin", "role": "Configures AI Automation for their team", "flows": "All Guided-answer flows" }
+  ],
+
+  "flows": [
+    {
+      "gid": "add-answer",
+      "action": "Add answer",
+      "entry": "Table header",
+      "name": "Add a guided answer",
+      "actor": "Team Admin",
+      "badge": "instant",
+      "trigger": "Click “Add new” on the Guided answers table",
+      "callout": "A <b>2-step sequential modal</b> — nothing is saved until Step 2's “Add answer” commits.",
+      "nodes": [
+        { "id": "n1", "step": 1, "lane": 0, "kind": "phase", "img": "screens/add/01-list-entry",
+          "title": "Guided answers", "user": "—", "sys": "Answers table, ready to add one" },
+        { "id": "n2", "step": 2, "lane": 0, "kind": "phase", "img": "screens/add/02-step1-empty",
+          "title": "Step 1 of 2 — Answer content", "user": "Clicks “Add new”", "sys": "Opens the 2-step dialog", "spec": "answer-settings" },
+        { "id": "d1", "step": 3, "lane": 0, "kind": "decision", "title": "Required fields filled?" },
+        { "id": "m1", "step": 3, "lane": 1, "kind": "phase", "tone": "warn", "img": "screens/add/02b-step1-validation-error",
+          "title": "Inline validation", "user": "Clicks “Assign queries” while empty", "sys": "Shows required-field errors" },
+        { "id": "n3", "step": 4, "lane": 0, "kind": "phase", "img": "screens/add/03-step1-filled",
+          "title": "Step 1 filled in", "user": "Names it, picks “Guide to load”, selects a guide", "sys": "Guide + first-step start selected", "spec": "answer-settings" },
+        { "id": "n4", "step": 5, "lane": 0, "kind": "phase", "img": "screens/add/04-step2-empty",
+          "title": "Step 2 of 2 — Queries", "user": "Clicks “Assign queries”", "sys": "Advances to Step 2, query list empty", "spec": "queries-settings" },
+        { "id": "d2", "step": 6, "lane": 0, "kind": "decision", "title": "At least one query?" },
+        { "id": "m2", "step": 6, "lane": 1, "kind": "phase", "tone": "warn", "img": "screens/add/04b-queries-validation-error",
+          "title": "Inline validation", "user": "Clicks “Add answer” with 0 queries", "sys": "“Add at least one query” error" },
+        { "id": "n5", "step": 7, "lane": 0, "kind": "phase", "img": "screens/add/05-generate-popover",
+          "title": "Generate queries", "user": "Clicks “Generate queries”", "sys": "Opens the intent-description popover", "spec": "generate-queries-popover" },
+        { "id": "d3", "step": 8, "lane": 0, "kind": "decision", "title": "Intent description filled?" },
+        { "id": "m4", "step": 8, "lane": 1, "kind": "phase", "tone": "warn", "img": "screens/add/05b-intent-required-error",
+          "title": "Inline validation", "user": "Clicks “Generate” with the intent field empty", "sys": "“The intent field cannot be empty.” shown" },
+        { "id": "n6", "step": 9, "lane": 0, "kind": "phase", "img": "screens/add/06-generated-queries",
+          "title": "Queries generated", "user": "Describes the intent, clicks “Generate”", "sys": "Suggested queries appended + highlighted", "spec": "queries-settings" },
+        { "id": "n6b", "step": 10, "lane": 0, "kind": "phase", "img": "screens/add/06b-manual-and-edited-queries",
+          "title": "Manual & edited queries", "user": "Edits a generated query's text, and manually adds another", "sys": "Both read with the pen icon — a query stays AI-tagged only while unedited", "spec": "queries-settings" },
+        { "id": "n7", "step": 11, "lane": 0, "kind": "phase", "img": "screens/add/06c-language-switch-empty",
+          "title": "Switch language", "user": "Switches the language selector to French", "sys": "French has no queries yet — each language starts empty until typed or generated" },
+        { "id": "n8", "step": 12, "lane": 0, "kind": "phase", "img": "screens/add/06d-generate-per-language",
+          "title": "Generate for French only", "user": "Describes the intent again, generates without checking “Add to all languages”", "sys": "Only French gets new queries — English is untouched", "spec": "generate-queries-popover" },
+        { "id": "n9", "step": 13, "lane": 0, "kind": "phase", "img": "screens/add/06e-search-no-results",
+          "title": "Search filters the list", "user": "Types a term that matches nothing into the search field", "sys": "Empty-state illustration replaces the row list; the “+ Add query”/“Generate queries” actions stay reachable and clear the filter automatically", "spec": "queries-settings" },
+        { "id": "o1", "step": 14, "lane": 0, "kind": "end", "tone": "ok", "img": "screens/add/07-success",
+          "title": "Answer added", "user": "Clicks “Add answer”", "sys": "Dialog closes, new row appears in the table" },
+        { "id": "m3", "step": 5, "lane": -1, "kind": "phase", "tone": "warn", "img": "screens/add/08-exit-confirm",
+          "title": "Exit without saving?", "user": "Clicks “Cancel” with unsaved content", "sys": "Confirms before discarding" },
+        { "id": "o2", "step": 6, "lane": -1, "kind": "end", "tone": "warn", "img": "screens/add/09-discarded",
+          "title": "Discarded", "user": "Clicks “Discard changes”", "sys": "Dialog closes, nothing was saved" }
+      ],
+      "edges": [
+        ["n1", "n2"], ["n2", "d1"], ["d1", "m1", "no"], ["d1", "n3", "yes"],
+        ["n3", "n4"], ["n4", "d2"], ["d2", "m2", "no"], ["d2", "n5", "yes"],
+        ["n5", "d3"], ["d3", "m4", "no"], ["d3", "n6", "yes"],
+        ["n6", "n6b"], ["n6b", "n7"], ["n7", "n8"], ["n8", "n9"], ["n9", "o1"],
+        ["n2", "m3", "Cancel (unsaved)"], ["m3", "o2", "Discard"]
+      ],
+      "uc": {
+        "goal": "Create a new guided answer that auto-triggers a guide, tour, business-process agent, or custom message for matching visitor queries.",
+        "pre": ["Team Admin is on the Guided answers screen"],
+        "main": [
+          "Admin clicks “Add new”",
+          "Admin names the answer and picks a response type (guide, custom message, or business-process agent)",
+          "For a guide/BPA type, admin picks the guide and, optionally, its start step",
+          "Admin clicks “Assign queries” to advance to Step 2",
+          "Admin types queries manually and/or generates them from a written intent description",
+          "Admin clicks “Add answer”"
+        ],
+        "alt": [
+          "“Generate queries” opens a popover; describing an intent and clicking “Generate” appends several AI-suggested phrasings for the current language only, unless “Add to all languages” is checked",
+          "“Add to all languages” only appears once the answer has more than one language (inherited from the selected guide, or from a custom message with a 2nd language added) — a single-language answer's popover omits it, since there's nothing else to batch into",
+          "Each language keeps its own query list — switching the language selector to one nothing has been typed/generated for yet shows it empty; generating there fills in just that language",
+          "Manually-typed and AI-generated queries share one list; a query only reads as AI-generated (sparkle icon) while its text still matches what was generated — editing it, or typing one from scratch via “+ Add query”, shows the pen icon instead",
+          "Searching the query list by text swaps the row list for an empty-state illustration when nothing matches; adding or generating a query while a filter is active clears it automatically so the new row is never hidden"
+        ],
+        "exc": [
+          "Advancing to Step 2 with required Step-1 fields empty shows inline validation instead of navigating",
+          "Submitting Step 2 with zero queries shows “Add at least one query to create this answer.”",
+          "Clicking “Generate” with the intent field empty shows “The intent field cannot be empty.” instead of generating",
+          "Cancelling with unsaved content prompts an exit-confirmation dialog"
+        ],
+        "post": "A new row appears in the Guided answers table, enabled by default."
+      }
+    },
+    {
+      "gid": "edit-answer",
+      "action": "Edit answer",
+      "entry": "Row menu",
+      "name": "Edit a guided answer",
+      "actor": "Team Admin",
+      "badge": "instant",
+      "trigger": "Open a row's ⋯ menu → Edit",
+      "callout": "A <b>single tabbed modal</b> — Answer / Queries / Settings — sharing its Queries UI and Generate-queries engine with the Add-answer flow.",
+      "nodes": [
+        { "id": "n1", "step": 1, "lane": 0, "kind": "phase", "img": "screens/edit/01-row-menu",
+          "title": "Row menu", "user": "Opens a row's ⋯ menu", "sys": "Shows Edit / Enable / Delete" },
+        { "id": "n2", "step": 2, "lane": 0, "kind": "phase", "img": "screens/edit/02-answer-tab",
+          "title": "Edit — Answer tab", "user": "Clicks “Edit”", "sys": "Opens the tabbed dialog, fields prefilled", "spec": "answer-settings" },
+        { "id": "d1", "step": 3, "lane": 0, "kind": "decision", "title": "Name still filled?" },
+        { "id": "m1", "step": 3, "lane": 1, "kind": "phase", "tone": "warn", "img": "screens/edit/02b-name-validation-error",
+          "title": "Inline validation", "user": "Clears the name, clicks “Save changes”", "sys": "“This field is required” shown" },
+        { "id": "n3", "step": 4, "lane": 0, "kind": "phase", "img": "screens/edit/03-queries-tab",
+          "title": "Queries tab", "user": "Switches to the Queries tab", "sys": "Existing per-language queries load (a language nothing was ever added to shows empty)", "spec": "queries-settings" },
+        { "id": "n4", "step": 5, "lane": 0, "kind": "phase", "img": "screens/edit/04-generate",
+          "title": "Generate more queries", "user": "Describes a new intent, generates", "sys": "New queries appended + highlighted, tagged AI until edited (then pen icon, same as manual)", "spec": "generate-queries-popover" },
+        { "id": "n5", "step": 6, "lane": 0, "kind": "phase", "img": "screens/edit/05-settings-tab",
+          "title": "Settings tab", "user": "Switches to the Settings tab", "sys": "Custom loading message field" },
+        { "id": "o1", "step": 7, "lane": 0, "kind": "end", "tone": "ok", "img": "screens/edit/06-success",
+          "title": "Changes saved", "user": "Clicks “Save changes”", "sys": "Dialog closes, row updates in place" },
+        { "id": "m2", "step": 3, "lane": -1, "kind": "phase", "tone": "warn", "img": "screens/edit/07-exit-confirm",
+          "title": "Exit without saving?", "user": "Edits the name, clicks “Discard changes”", "sys": "Confirms before discarding" },
+        { "id": "o2", "step": 4, "lane": -1, "kind": "end", "tone": "warn", "img": "screens/edit/08-discarded",
+          "title": "Discarded", "user": "Clicks “Discard changes”", "sys": "Dialog closes, row unchanged" }
+      ],
+      "edges": [
+        ["n1", "n2"], ["n2", "d1"], ["d1", "m1", "no"], ["d1", "n3", "yes"],
+        ["n3", "n4"], ["n4", "n5"], ["n5", "o1"],
+        ["n2", "m2", "Discard (unsaved)"], ["m2", "o2", "Discard"]
+      ],
+      "uc": {
+        "goal": "Update an existing guided answer's content, queries, or settings.",
+        "pre": ["At least one guided answer exists in the table"],
+        "main": [
+          "Admin opens a row's ⋯ menu and clicks “Edit”",
+          "Admin adjusts fields on the Answer tab",
+          "Admin reviews or edits queries on the Queries tab, generating more if needed",
+          "Admin adjusts the Settings tab (custom loading message) where applicable",
+          "Admin clicks “Save changes”"
+        ],
+        "alt": [
+          "Existing queries are fetched per language on demand as the language selector changes; a language with nothing added yet just shows an empty list",
+          "Unsaved additions (e.g. from Generate) survive a language re-fetch",
+          "Same generate/manual/language rules as Add — see the Add-answer flow for the full walkthrough (edit-to-manual icon flip, per-language generation, “Add to all languages” only with 2+ languages)"
+        ],
+        "exc": [
+          "Clearing the required name field and saving triggers inline validation instead of closing",
+          "Cancelling with changes prompts “Exit without saving?”"
+        ],
+        "post": "The row's values, query count, and “last modified” date update in place."
+      }
+    }
+  ],
+
+  "blueprints": [
+    { "type": "annot", "key": "answer-settings", "label": "Answer settings", "chip": "Answer fields", "shared": true,
+      "uses": ["InputText", "InputSelect", "InputDropdown", "GuideFinder"] },
+    { "type": "annot", "key": "queries-settings", "label": "Queries panel", "chip": "Queries panel", "shared": true,
+      "uses": ["InputSearch", "LanguageSelector", "InputTextarea", "ButtonAdd", "GenerateQueriesDropdown"] },
+    { "type": "annot", "key": "generate-queries-popover", "label": "Generate-queries popover", "chip": "Generate queries", "shared": true,
+      "uses": ["Popover", "InputTextarea", "FieldCheck", "ButtonPrimary"] },
+    { "type": "simple", "key": "exit-confirm-dialog", "label": "Exit-without-saving dialog", "chip": "Exit confirm", "shared": true,
+      "uses": ["ActionsDialog"] }
+  ],
+
+  "overview": {
+    "matrix": {
+      "rowHeader": "Entry point",
+      "columns": ["Add answer", "Edit answer"],
+      "rows": [
+        { "label": "Table header (“Add new”)", "cells": [{ "tag": "instant" }, {}] },
+        { "label": "Row ⋯ menu (“Edit”)", "cells": [{}, { "tag": "instant" }] }
+      ]
+    }
+  }
+}

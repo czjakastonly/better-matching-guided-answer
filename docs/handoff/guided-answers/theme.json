@@ -1,0 +1,66 @@
+{
+  "color": {
+    "backgroundDefaultHover": "#F7F7F9",
+    "backgroundDefaultPressed": "#E2E2E6",
+    "backgroundGraySubtlest": "#F7F7F9",
+    "backgroundGraySubtle": "#E2E2E6",
+    "backgroundInformationSubtle": "#EEF6FE",
+    "backgroundDangerSubtle": "#FFF2F2",
+    "backgroundPrimary": "#E61168",
+    "backgroundPrimaryHover": "#A60045",
+    "backgroundPrimaryPressed": "#52001F",
+    "textDefault": "#474459",
+    "textDark": "#1C1A24",
+    "textSubtle": "#706D84",
+    "textPlaceholder": "#848296",
+    "textDefaultInverse": "#FFFFFF",
+    "textDanger": "#D92034",
+    "backgroundDefault": "#FFFFFF",
+    "textLink": "#3F67DC",
+    "textLinkHover": "#3449AC",
+    "borderSubtle": "#E2E2E6",
+    "borderDefault": "#C1C0CB",
+    "borderDefaultHover": "#848296",
+    "borderFocus": "#5A8BE8",
+    "borderDanger": "#D92034",
+    "iconDefault": "#706D84",
+    "iconSubtle": "#C1C0CB",
+    "iconHover": "#1C1A24",
+    "iconInformation": "#5A8BE8",
+    "iconDanger": "#D92034",
+    "iconGuide": "#F74D7E"
+  },
+  "radius": {
+    "xs": "2px",
+    "sm": "3px",
+    "md": "4px",
+    "lg": "8px",
+    "pill": "18px"
+  },
+  "type": {
+    "h2": "24/400/32/-0.02em",
+    "h3": "16/400/24/-0.02em",
+    "h3Strong": "16/500/24/-0.02em",
+    "uiElement": "14/400/20/0",
+    "uiElementStrong": "14/500/20/0",
+    "uiElementSmall": "12/400/16/0",
+    "uiElementLabel": "12/500/16/0",
+    "paragraph1": "14/400/24/0",
+    "paragraph2": "12/400/20/0"
+  },
+  "typeDesc": {
+    "h2": "Screen title",
+    "h3": "Dialog title",
+    "h3Strong": "Dialog title (strong)",
+    "uiElement": "Body / form field text",
+    "uiElementStrong": "Emphasized UI text",
+    "uiElementSmall": "Secondary/meta text",
+    "uiElementLabel": "Field labels, uppercase",
+    "paragraph1": "Paragraph copy",
+    "paragraph2": "Helper / caption text"
+  },
+  "shadow": {
+    "dialog": "0px 16px 24px 0px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.08)",
+    "popover": "0px 4px 8px 0px rgba(0, 0, 0, 0.08), 0px 0px 8px 0px rgba(0, 0, 0, 0.08)"
+  }
+}
