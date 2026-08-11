@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import RemoveSVG from '@ui/atoms/icons/Remove-16.svg';
 import AISVG from '@ui/atoms/icons/AI-24.svg';
-import KeyboardSVG from '@ui/atoms/icons/Keyboard-16.svg';
+import EditSVG from '@ui/atoms/icons/Edit-16.svg';
 import SearchSVG from '@ui/atoms/icons/Search-16.svg';
 import CloseSVG from '@ui/atoms/icons/Close-12.svg';
 import EmptySearchSVG from '@ui/atoms/icons/EmptySearch-72.svg';
@@ -34,7 +34,7 @@ import { LanguageSelector } from './LanguageSelector';
  *   divider only appears once scrolled (same convention as ActionsDialog's own header divider —
  *   see DialogHeader — reused here via the same ContentWrapRefContext). "Assign queries" is a
  *   separate content-level section label underneath, not sharing a row with either control.
- * - Each row's icon (AI-16 for generated, Keyboard-16 for manual) sits INSIDE the input field
+ * - Each row's icon (AI-16 for generated, Edit-16 for manual) sits INSIDE the input field
  *   itself — inset top-left, with the field's own left padding pushed over to make room — instead
  *   of as a separate element before it. A row's ai/manual status is derived, not stored: it's AI
  *   only while its text still matches what was generated — the moment a human edits it away from
@@ -126,16 +126,14 @@ const AiIcon = styled(AISVG)`
 `;
 
 // Manually-typed rows — and AI-generated rows a human has since edited away from their original
-// text — get the same hover-tooltip treatment as the AI icon ("User-typed query"). Unlike AiIcon,
-// this is a stroke-based outline icon (the original Figma asset draws it with `stroke`, not
-// `fill`) — TooltipIcon's TriggerIconWrapper only overrides `fill` on descendant paths (built for
-// its default fill-based "?" icon), so left alone it paints an unwanted gray fill into this icon's
-// outline shapes, reading as a gray tint/halo around it. Kill that fill and drive the stroke color
-// directly instead, using the exact default/hover values from the Figma atom (file
-// SvImSJtWiaK0m6BSC4WEBn, node 7646:155): #706D84 at rest, #1C1A24 on hover/focus — matching
-// theme.color.iconDefault/iconHover exactly. The hover swap has to key off TriggerIconWrapper's
-// own hover state (not this icon's) since that wrapping span is what the pointer is actually over.
-const ManualQueryIcon = styled(KeyboardSVG)`
+// text — get the same hover-tooltip treatment as the AI icon ("User-typed query"). Per Figma atom
+// node 2489:501 ("Basic / Edit-16"): a pen/edit glyph, fill-based like AiIcon, so this only needs
+// to force its own default/hover fill (this Edit-16 asset is also used elsewhere in the app with
+// a legacy #515358 fill baked in, so the color is overridden here rather than edited in the shared
+// file). Same default/hover convention already established for this row's icons: iconDefault at
+// rest, iconHover on hover — the hover swap keys off TriggerIconWrapper's own hover state (not
+// this icon's) since that wrapping span is what the pointer is actually over.
+const ManualQueryIcon = styled(EditSVG)`
   width: 16px;
   height: 16px;
   flex: none;
@@ -145,14 +143,13 @@ const ManualQueryIcon = styled(KeyboardSVG)`
   margin-left: 0 !important;
 
   path {
-    fill: none !important;
-    stroke: ${({ theme }) => theme.color.iconDefault} !important;
+    fill: ${({ theme }) => theme.color.iconDefault} !important;
   }
 
   ${TooltipStyles.TriggerIconWrapper}:hover &,
   ${TooltipStyles.TriggerIconWrapper}:focus & {
     path {
-      stroke: ${({ theme }) => theme.color.iconHover} !important;
+      fill: ${({ theme }) => theme.color.iconHover} !important;
     }
   }
 `;
