@@ -2,7 +2,7 @@
 
 > Guided answers auto-surface a guide, guided tour, business-process agent, or custom message when a visitor's query matches an assigned list of trigger phrases. This handoff covers the two flows that manage that matching: the two-step Add-answer wizard and the tabbed Edit-answer dialog — including AI-assisted query generation from a written intent description. Table/list management (filters, delete, enable toggle, usage panel) is out of scope for this pass.
 >
-> _Captured from the standalone prototype at better-matching-guided-answer.vercel.app · repo czjakastonly/better-matching-guided-answer · commit dce3f30_
+> _Captured from the standalone prototype at better-matching-guided-answer.vercel.app · repo czjakastonly/better-matching-guided-answer · commit 5d552fb_
 
 Markdown twin of the interactive handoff artifact (`artifact.html`).
 

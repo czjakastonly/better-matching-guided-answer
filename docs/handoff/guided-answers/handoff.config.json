@@ -5,7 +5,7 @@
     "eyebrow": "AI Automation · Guided answers",
     "h1": "Add & edit a guided answer",
     "lede": "Guided answers auto-surface a guide, guided tour, business-process agent, or custom message when a visitor's query matches an assigned list of trigger phrases. This handoff covers the two flows that manage that matching: the two-step <b>Add-answer</b> wizard and the tabbed <b>Edit-answer</b> dialog — including AI-assisted query generation from a written intent description. Table/list management (filters, delete, enable toggle, usage panel) is out of scope for this pass.",
-    "provenance": "Captured from the standalone prototype at<br><code>better-matching-guided-answer.vercel.app</code> · repo <code>czjakastonly/better-matching-guided-answer</code> · commit <code>dce3f30</code>",
+    "provenance": "Captured from the standalone prototype at<br><code>better-matching-guided-answer.vercel.app</code> · repo <code>czjakastonly/better-matching-guided-answer</code> · commit <code>5d552fb</code>",
     "personaNote": "Single persona used throughout — no other actor type touches this feature.",
     "typoSample": "Queries (4)",
     "entryPhrases": { "Table header": "the “Add new” button", "Row menu": "a row's ⋯ menu" }
