@@ -7,6 +7,7 @@ import { FieldCheck } from '@ui/components/inputs/FieldCheck';
 import { Popover } from '@ui/components/Popover';
 import { useFloatingDropdown } from '@ui/components/Dropdown';
 import AISVG from '@ui/atoms/icons/AI-16.svg';
+import TriangleArrowDownSVG from '@ui/atoms/icons/TriangleArrowDown-12.svg';
 import { IntentSettings } from './IntentSettings';
 
 /**
@@ -257,6 +258,7 @@ export const GenerateQueriesDropdown = ({
         {...triggerProps}
         size="small"
         iconLeft={<AISVG />}
+        iconRight={<TriangleArrowDownSVG />}
         isPressed={isOpen}
         data-cy="generateQueriesTrigger"
       >
